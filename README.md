@@ -22,12 +22,13 @@ Chức năng:
 * Hiển thị kết quả trên OLED
 ## Cấu trúc thư mục
 hocmay/
-├── battery_data.csv
-├── hocmay.ino
-├── mlmodel.py
-├── nhandulieutocsv.py
-├── sendtoesp.py
-└── soh_model.pkl
+│
+├── battery_data.csv      # Dataset thu thập từ ESP32
+├── hocmay.ino            # Chương trình điều khiển ESP32
+├── mlmodel.py            # Huấn luyện mô hình Machine Learning
+├── nhandulieutocsv.py    # Thu thập dữ liệu và lưu vào file CSV
+├── sendtoesp.py          # Dự đoán SOH và gửi kết quả về ESP32
+└── soh_model.pkl         # Mô hình Machine Learning đã huấn luyện
 ## Cài đặt thư viện
 ### Python
 pip install pandas numpy scikit-learn pyserial joblib
