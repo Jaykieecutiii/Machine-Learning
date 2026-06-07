@@ -31,84 +31,122 @@ hocmay/
 ├── nhandulieutocsv.py    # Thu thập dữ liệu và lưu vào file CSV
 ├── sendtoesp.py          # Dự đoán SOH và gửi kết quả về ESP32
 └── soh_model.pkl         # Mô hình Machine Learning đã huấn luyện
+
 ## Cài đặt thư viện
+
 ### Python
+
+Cài đặt các thư viện cần thiết bằng lệnh:
+
+```bash
 pip install pandas numpy scikit-learn pyserial joblib
+```
+
 ### Arduino IDE
-Cài đặt:
+
+Cài đặt các thư viện sau trong Library Manager:
 
 * Adafruit INA219
 * Adafruit SSD1306
 * Adafruit GFX
+
+---
+
 ## Hướng dẫn sử dụng
-### Bước 1: Upload code ESP32
-Nạp chương trình ESP32 bằng Arduino IDE.
+
+### Bước 1: Nạp chương trình cho ESP32
+
+Mở file `hocmay.ino` bằng Arduino IDE, chọn đúng loại bo mạch ESP32 và cổng COM tương ứng, sau đó tiến hành nạp chương trình.
+
 ### Bước 2: Thu thập dữ liệu
-Chạy:
+
+Chạy chương trình:
+
+```bash
 python nhandulieutocsv.py
+```
 
-Dữ liệu sẽ được lưu vào:
+Dữ liệu đo được từ cảm biến INA219 sẽ được lưu vào file:
 
+```text
 battery_data.csv
+```
 
-### Bước 3: Huấn luyện mô hình
+### Bước 3: Huấn luyện mô hình Machine Learning
 
-Chạy:
+Chạy chương trình:
 
+```bash
 python mlmodel.py
+```
 
-Kết quả:
+Sau khi huấn luyện hoàn tất, hệ thống sẽ tạo ra file mô hình:
 
+```text
 soh_model.pkl
+```
 
 ### Bước 4: Dự đoán thời gian thực
 
-Chạy:
+Chạy chương trình:
 
+```bash
 python sendtoesp.py
+```
 
-Hệ thống sẽ:
+Hệ thống sẽ thực hiện:
 
-* Nhận dữ liệu từ ESP32
-* Dự đoán SOH
-* Gửi kết quả về ESP32
-* Hiển thị trên OLED
+* Nhận dữ liệu từ ESP32 thông qua giao tiếp Serial
+* Dự đoán trạng thái sức khỏe pin (SOH)
+* Dự đoán xu hướng suy giảm SOH trong tương lai
+* Gửi kết quả trở lại ESP32
+* Hiển thị kết quả trên màn hình OLED
 
+---
 
 ## Dataset
 
-Các thuộc tính:
+Bộ dữ liệu được thu thập trực tiếp từ hệ thống phần cứng thực tế sử dụng ESP32 và cảm biến INA219.
 
-| Feature | Ý nghĩa             |
-| ------- | ------------------- |
-| voltage | Điện áp pin (V)     |
-| current | Dòng điện (A)       |
-| time    | Thời gian (s)       |
-| mAh     | Dung lượng tích lũy |
-| SOH     | Độ khỏe pin (%)     |
+| Feature | Ý nghĩa                   |
+| ------- | ------------------------- |
+| voltage | Điện áp pin (V)           |
+| current | Dòng điện sạc/xả (A)      |
+| time    | Thời gian hoạt động (s)   |
+| mAh     | Dung lượng tích lũy (mAh) |
+| SOH     | Độ khỏe pin (%)           |
 
-## Kết quả
+---
 
-Ví dụ đầu ra:
+## Kết quả thực nghiệm
 
+Ví dụ kết quả dự đoán thời gian thực:
+
+```text
 V=12.11 I=0.78 mAh=25.75 | SOH=97.26 NEXT=97.11
+```
 
-Mô hình Random Forest đạt độ chính xác cao trên tập dữ liệu thử nghiệm.
+Mô hình Random Forest cho kết quả dự đoán ổn định với độ chính xác cao trên tập dữ liệu thu thập được từ hệ thống.
 
+---
 
 ## Hướng phát triển
 
-* Tích hợp cảm biến nhiệt độ pin
-* Áp dụng LSTM cho dữ liệu chuỗi thời gian
-* Tối ưu chạy TinyML trên ESP32
-* Xây dựng Dashboard Web theo dõi từ xa
+* Tích hợp cảm biến nhiệt độ pin để nâng cao độ chính xác
+* Áp dụng mô hình LSTM cho dữ liệu chuỗi thời gian
+* Tối ưu mô hình để triển khai trực tiếp trên ESP32 bằng TinyML
+* Xây dựng giao diện Dashboard Web để theo dõi và giám sát từ xa
+* Mở rộng hệ thống cho các loại pin Lithium dung lượng lớn
+
+---
 
 ## Tác giả
 
-Họ tên: LÊ XUÂN NAM
+**Họ và tên:** Lê Xuân Nam
 
-Mã sinh viên: 2321060003
+**Mã sinh viên:** 2321060003
 
-Môn học: Machine Learning for Robotics
+**Môn học:** Machine Learning for Robotics
 
-Trường: Đại học Mỏ Địa CHất
+**Trường:** Đại học Mỏ - Địa chất
+
