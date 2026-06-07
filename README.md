@@ -21,6 +21,8 @@ Chức năng:
 * Dự đoán xu hướng SOH tương lai
 * Hiển thị kết quả trên OLED
 ## Cấu trúc thư mục
+
+```text
 hocmay/
 │
 ├── battery_data.csv      # Dataset thu thập từ ESP32
